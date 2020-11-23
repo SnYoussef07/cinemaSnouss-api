@@ -7,22 +7,18 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Ticket implements Serializable {
+public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String clientName;
-    private double price;
-    private int paymentCode;
-    private boolean reserve;
-    @ManyToOne
-    private Seat seat;
-    @ManyToOne
-    private FilmScreening filmScreening;
+    private String name;
+    @OneToMany(mappedBy = "category")
+    private Collection<Movie> movies;
 }

@@ -8,20 +8,26 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
+
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Cinema implements Serializable {
-
+public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private int numberOfRooms;
-    @OneToMany(mappedBy = "cinema")
-    private Collection<Room> rooms;
-
+    private String title;
+    private String description;
+    private String filmDirector;
+    private Date releaseDate;
+    private double duration;
+    private String picture;
+    @OneToMany(mappedBy = "movie")
+    private Collection<FilmScreening> projections;
+    @ManyToOne
+    private Category category;
 }
