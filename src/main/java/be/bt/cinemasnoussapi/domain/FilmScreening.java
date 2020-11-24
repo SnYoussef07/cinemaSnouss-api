@@ -21,6 +21,7 @@ public class FilmScreening implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date screeningDate;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
     private double price;
     @ManyToOne
