@@ -21,8 +21,6 @@ public class Room implements Serializable {
     private Long id;
     private String name;
     private int nombrePlaces;
-    @ManyToOne
-    private Cinema cinema;
     @OneToMany(mappedBy = "room")
     private Collection<Seat> seats;
     @OneToMany(mappedBy = "room")
