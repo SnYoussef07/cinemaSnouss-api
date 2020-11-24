@@ -1,5 +1,6 @@
 package be.bt.cinemasnoussapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,11 +20,13 @@ public class Ticket implements Serializable {
     private Long id;
     private String clientName;
     private double price;
-    @Column(unique = true)
-    private int paymentCode;
+    @Column(unique = true, nullable = true)
+    private Integer paymentCode;
     private boolean reserve;
     @ManyToOne
+    @JsonIgnore
     private Seat seat;
     @ManyToOne
+    @JsonIgnore
     private FilmScreening filmScreening;
 }

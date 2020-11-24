@@ -20,7 +20,7 @@ public class Room implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private int nombrePlaces;
+    private int numberOfSeat;
     @OneToMany(mappedBy = "room")
     private Collection<Seat> seats;
     @OneToMany(mappedBy = "room")

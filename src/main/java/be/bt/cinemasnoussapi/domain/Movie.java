@@ -1,5 +1,6 @@
 package be.bt.cinemasnoussapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,5 +30,6 @@ public class Movie implements Serializable {
     @OneToMany(mappedBy = "movie")
     private Collection<FilmScreening> projections;
     @ManyToOne
+    @JsonIgnore
     private Category category;
 }

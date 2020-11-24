@@ -1,5 +1,6 @@
 package be.bt.cinemasnoussapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Seat implements Serializable {
     private Long id;
     private int number;
     @ManyToOne
+    @JsonIgnore
     private Room room;
     @OneToMany(mappedBy = "seat")
     private Collection<Ticket> tickets;
