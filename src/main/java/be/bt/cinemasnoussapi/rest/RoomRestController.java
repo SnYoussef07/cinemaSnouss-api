@@ -1,6 +1,5 @@
 package be.bt.cinemasnoussapi.rest;
 
-import be.bt.cinemasnoussapi.domain.Cinema;
 import be.bt.cinemasnoussapi.domain.Room;
 import be.bt.cinemasnoussapi.repository.IRoomRepository;
 import org.springframework.http.HttpStatus;
