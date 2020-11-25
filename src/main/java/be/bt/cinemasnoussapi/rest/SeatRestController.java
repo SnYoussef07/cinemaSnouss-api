@@ -1,11 +1,14 @@
 package be.bt.cinemasnoussapi.rest;
 
+import be.bt.cinemasnoussapi.domain.Ticket;
+import be.bt.cinemasnoussapi.domain.Movie;
 import be.bt.cinemasnoussapi.domain.Seat;
 import be.bt.cinemasnoussapi.repository.ISeatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +33,16 @@ public class SeatRestController {
         Optional<Seat> result = seatRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Seat>(result.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/tickets")
+    public ResponseEntity<Collection<Ticket>> getAllTicketBySeat(@PathVariable("id") Long id) {
+        Optional<Seat> result = seatRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get().getTickets(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
