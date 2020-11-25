@@ -1,6 +1,7 @@
 package be.bt.cinemasnoussapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
+@JsonIgnoreProperties(value = {"tickets"})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
