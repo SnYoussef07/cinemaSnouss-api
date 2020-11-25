@@ -1,11 +1,15 @@
 package be.bt.cinemasnoussapi.rest;
 
+import be.bt.cinemasnoussapi.domain.Category;
 import be.bt.cinemasnoussapi.domain.FilmScreening;
+import be.bt.cinemasnoussapi.domain.Movie;
+import be.bt.cinemasnoussapi.domain.Ticket;
 import be.bt.cinemasnoussapi.repository.IFilmScreeningRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +34,16 @@ public class FilmScreeningRestController {
         Optional<FilmScreening> result = filmScreeningRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<FilmScreening>(result.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/tickets")
+    public ResponseEntity<Collection<Ticket>> getAllMoviesByFilmScreen(@PathVariable("id") Long id) {
+        Optional<FilmScreening> result = filmScreeningRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<Collection<Ticket>>(result.get().getTickets(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

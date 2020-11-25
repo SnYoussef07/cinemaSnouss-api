@@ -1,11 +1,13 @@
 package be.bt.cinemasnoussapi.rest;
 
 import be.bt.cinemasnoussapi.domain.Category;
+import be.bt.cinemasnoussapi.domain.Movie;
 import be.bt.cinemasnoussapi.repository.ICategoryrepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +32,16 @@ public class CategoryRestController {
         Optional<Category> result = categoryrepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Category>(result.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/movies")
+    public ResponseEntity<Collection<Movie>> getAllMoviesByCat(@PathVariable("id") Long id) {
+        Optional<Category> result = categoryrepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<Collection<Movie>>(result.get().getMovies(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
