@@ -21,6 +21,8 @@ public class CinemaInitIImpl implements ICinemaInitService {
     @Autowired
     private IRoomRepository roomRepository;
     @Autowired
+    private ISessionMovieRepository iSessionMovieRepository;
+    @Autowired
     private ISeatRepository seatRepository;
     @Autowired
     private ICategoryrepository categoryrepository;
@@ -40,6 +42,21 @@ public class CinemaInitIImpl implements ICinemaInitService {
             room.setNumberOfSeat(150);
             roomRepository.save(room);
         }
+    }
+
+
+    @Override
+    public void initSessionMovie() {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        Stream.of("12:00", "15:00", "17:00", "19:00", "21:00").forEach(s -> {
+            SessionMovie sessionMovie = new SessionMovie();
+            try {
+                sessionMovie.setStartTime(dateFormat.parse(s));
+                iSessionMovieRepository.save(sessionMovie);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -80,21 +97,17 @@ public class CinemaInitIImpl implements ICinemaInitService {
 
     @Override
     public void initFilmScreening() {
-        String[] timeStart = new String[]{"12:00", "15:00", "17:00", "19:00", "21:00"};
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         roomRepository.findAll().forEach(room -> {
             movieRepository.findAll().forEach(movie -> {
-                FilmScreening filmScreening = new FilmScreening();
-                filmScreening.setScreeningDate(new Date());
-                filmScreening.setMovie(movie);
-                filmScreening.setPrice(12);
-                filmScreening.setRoom(room);
-                try {
-                    filmScreening.setStartTime(dateFormat.parse(timeStart[new Random().nextInt(timeStart.length)]));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                filmScreeningRepository.save(filmScreening);
+                iSessionMovieRepository.findAll().forEach(sessionMovie -> {
+                    FilmScreening filmScreening = new FilmScreening();
+                    filmScreening.setScreeningDate(new Date());
+                    filmScreening.setMovie(movie);
+                    filmScreening.setPrice(12);
+                    filmScreening.setRoom(room);
+                    filmScreening.setSessionMovie(sessionMovie);
+                    filmScreeningRepository.save(filmScreening);
+                });
             });
         });
     }

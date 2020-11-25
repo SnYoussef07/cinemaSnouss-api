@@ -20,6 +20,7 @@ public class CinemaSnoussApiApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         cinemaInitService.initRooms();
         cinemaInitService.initSeats();
+        cinemaInitService.initSessionMovie();
         cinemaInitService.initCategories();
         cinemaInitService.initMovies();
         cinemaInitService.initFilmScreening();

@@ -22,8 +22,6 @@ public class FilmScreening implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date screeningDate;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startTime;
     private double price;
     @ManyToOne
     @JsonIgnore
@@ -31,6 +29,10 @@ public class FilmScreening implements Serializable {
     @ManyToOne
     @JsonIgnore
     private Movie movie;
+    @ManyToOne
+    @JsonIgnore
+    private SessionMovie sessionMovie;
     @OneToMany(mappedBy = "filmScreening")
     private Collection<Ticket> tickets;
+
 }
