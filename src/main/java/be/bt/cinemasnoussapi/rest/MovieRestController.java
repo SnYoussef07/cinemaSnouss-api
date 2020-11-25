@@ -1,6 +1,8 @@
 package be.bt.cinemasnoussapi.rest;
 
+import be.bt.cinemasnoussapi.domain.FilmScreening;
 import be.bt.cinemasnoussapi.domain.Movie;
+import be.bt.cinemasnoussapi.domain.FilmScreening;
 import be.bt.cinemasnoussapi.repository.IMovieRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +48,16 @@ public class MovieRestController {
             return new ResponseEntity<>(Files.readAllBytes(Paths.get
                     (System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + ".png")), HttpStatus.OK);
             //return Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/cinesnoussimages/" + result.getPicture()));
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/filmScreening")
+    public ResponseEntity<Collection<FilmScreening>> getAllFilmScreenByMovie(@PathVariable("id") Long id) {
+        Optional<Movie> result = movieRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<Collection<FilmScreening>>(result.get().getProjections(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
