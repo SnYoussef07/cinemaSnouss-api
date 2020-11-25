@@ -53,7 +53,7 @@ public class MovieRestController {
         }
     }
 
-    @GetMapping(path = "/{id}/filmScreening")
+    @GetMapping(path = "/{id}/filmScreenings")
     public ResponseEntity<Collection<FilmScreening>> getAllFilmScreenByMovie(@PathVariable("id") Long id) {
         Optional<Movie> result = movieRepository.findById(id);
         if (result.isPresent()) {

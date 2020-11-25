@@ -1,11 +1,15 @@
 package be.bt.cinemasnoussapi.rest;
 
+import be.bt.cinemasnoussapi.domain.FilmScreening;
 import be.bt.cinemasnoussapi.domain.Room;
+import be.bt.cinemasnoussapi.domain.Seat;
+import be.bt.cinemasnoussapi.domain.Ticket;
 import be.bt.cinemasnoussapi.repository.IRoomRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +34,26 @@ public class RoomRestController {
         Optional<Room> result = roomRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Room>(result.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/seats")
+    public ResponseEntity<Collection<Seat>> getAllSeatsByRoom(@PathVariable("id") Long id) {
+        Optional<Room> result = roomRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get().getSeats(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/filmScreenings")
+    public ResponseEntity<Collection<FilmScreening>> getAllFilmScreeningByRoom(@PathVariable("id") Long id) {
+        Optional<Room> result = roomRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get().getProjections(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
