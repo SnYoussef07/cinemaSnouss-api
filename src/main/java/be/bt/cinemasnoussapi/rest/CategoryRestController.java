@@ -38,7 +38,7 @@ public class CategoryRestController {
     }
 
     @GetMapping(path = "/{id}/movies")
-    public ResponseEntity<Collection<Movie>> getAllMoviesByCat(@PathVariable("id") Long id) {
+    public ResponseEntity<Collection<Movie>> getAllMoviesFromCat(@PathVariable("id") Long id) {
         Optional<Category> result = categoryrepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Collection<Movie>>(result.get().getMovies(), HttpStatus.OK);

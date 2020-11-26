@@ -1,8 +1,6 @@
 package be.bt.cinemasnoussapi.rest;
 
-import be.bt.cinemasnoussapi.domain.Ticket;
-import be.bt.cinemasnoussapi.domain.Movie;
-import be.bt.cinemasnoussapi.domain.Seat;
+import be.bt.cinemasnoussapi.domain.*;
 import be.bt.cinemasnoussapi.repository.ISeatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +41,16 @@ public class SeatRestController {
         Optional<Seat> result = seatRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get().getTickets(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/room")
+    public ResponseEntity<Room> getRoomFromSeat(@PathVariable("id") Long id) {
+        Optional<Seat> result = seatRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<Room>(result.get().getRoom(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

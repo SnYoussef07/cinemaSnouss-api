@@ -46,14 +46,13 @@ public class MovieRestController {
         if (result.isPresent()) {
             return new ResponseEntity<>(Files.readAllBytes(Paths.get
                     (System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + ".png")), HttpStatus.OK);
-            //return Files.readAllBytes(Paths.get(System.getProperty("user.home") + "/cinesnoussimages/" + result.getPicture()));
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 
     @GetMapping(path = "/{id}/filmScreenings")
-    public ResponseEntity<Collection<FilmScreening>> getAllFilmScreenByMovie(@PathVariable("id") Long id) {
+    public ResponseEntity<Collection<FilmScreening>> getAllFilmScreenFromMovie(@PathVariable("id") Long id) {
         Optional<Movie> result = movieRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Collection<FilmScreening>>(result.get().getProjections(), HttpStatus.OK);
@@ -63,7 +62,7 @@ public class MovieRestController {
     }
 
     @GetMapping(path = "/{id}/category")
-    public ResponseEntity<Category> getCategoryByMovie(@PathVariable("id") Long id) {
+    public ResponseEntity<Category> getCategoryFromMovie(@PathVariable("id") Long id) {
         Optional<Movie> result = movieRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Category>(result.get().getCategory(), HttpStatus.OK);

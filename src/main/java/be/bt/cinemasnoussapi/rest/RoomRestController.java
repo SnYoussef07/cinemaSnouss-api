@@ -40,7 +40,7 @@ public class RoomRestController {
     }
 
     @GetMapping(path = "/{id}/seats")
-    public ResponseEntity<Collection<Seat>> getAllSeatsByRoom(@PathVariable("id") Long id) {
+    public ResponseEntity<Collection<Seat>> getAllSeatsFromRoom(@PathVariable("id") Long id) {
         Optional<Room> result = roomRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get().getSeats(), HttpStatus.OK);
@@ -50,7 +50,7 @@ public class RoomRestController {
     }
 
     @GetMapping(path = "/{id}/filmScreenings")
-    public ResponseEntity<Collection<FilmScreening>> getAllFilmScreeningByRoom(@PathVariable("id") Long id) {
+    public ResponseEntity<Collection<FilmScreening>> getAllFilmScreeningFromRoom(@PathVariable("id") Long id) {
         Optional<Room> result = roomRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get().getProjections(), HttpStatus.OK);

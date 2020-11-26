@@ -37,7 +37,7 @@ public class FilmScreeningRestController {
     }
 
     @GetMapping(path = "/{id}/tickets")
-    public ResponseEntity<Collection<Ticket>> getAllMoviesByFilmScreen(@PathVariable("id") Long id) {
+    public ResponseEntity<Collection<Ticket>> getAllMoviesFromFilmScreen(@PathVariable("id") Long id) {
         Optional<FilmScreening> result = filmScreeningRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Collection<Ticket>>(result.get().getTickets(), HttpStatus.OK);
@@ -47,7 +47,7 @@ public class FilmScreeningRestController {
     }
 
     @GetMapping(path = "/{id}/room")
-    public ResponseEntity<Room> getRoomByFilmScreen(@PathVariable("id") Long id) {
+    public ResponseEntity<Room> getRoomFromFilmScreen(@PathVariable("id") Long id) {
         Optional<FilmScreening> result = filmScreeningRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Room>(result.get().getRoom(), HttpStatus.OK);
@@ -57,7 +57,7 @@ public class FilmScreeningRestController {
     }
 
     @GetMapping(path = "/{id}/movie")
-    public ResponseEntity<Movie> getMovieByFilmScreen(@PathVariable("id") Long id) {
+    public ResponseEntity<Movie> getMovieFromFilmScreen(@PathVariable("id") Long id) {
         Optional<FilmScreening> result = filmScreeningRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Movie>(result.get().getMovie(), HttpStatus.OK);
@@ -67,7 +67,7 @@ public class FilmScreeningRestController {
     }
 
     @GetMapping(path = "/{id}/sessionMovie")
-    public ResponseEntity<SessionMovie> getSessionMovieByFilmScreen(@PathVariable("id") Long id) {
+    public ResponseEntity<SessionMovie> getSessionMovieFromFilmScreen(@PathVariable("id") Long id) {
         Optional<FilmScreening> result = filmScreeningRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<SessionMovie>(result.get().getSessionMovie(), HttpStatus.OK);
