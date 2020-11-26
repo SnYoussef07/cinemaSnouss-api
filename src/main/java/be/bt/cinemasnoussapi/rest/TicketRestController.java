@@ -1,5 +1,8 @@
 package be.bt.cinemasnoussapi.rest;
 
+import be.bt.cinemasnoussapi.domain.FilmScreening;
+import be.bt.cinemasnoussapi.domain.Room;
+import be.bt.cinemasnoussapi.domain.Seat;
 import be.bt.cinemasnoussapi.domain.Ticket;
 import be.bt.cinemasnoussapi.repository.ITicketRepository;
 import org.springframework.http.HttpStatus;
@@ -30,6 +33,26 @@ public class TicketRestController {
         Optional<Ticket> result = ticketRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Ticket>(result.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/seat")
+    public ResponseEntity<Seat> getSeatFromTicket(@PathVariable("id") Long id) {
+        Optional<Ticket> result = ticketRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<Seat>(result.get().getSeat(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/filmScreening")
+    public ResponseEntity<FilmScreening> getFilmScreeningFromTicket(@PathVariable("id") Long id) {
+        Optional<Ticket> result = ticketRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<FilmScreening>(result.get().getFilmScreening(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
