@@ -1,7 +1,6 @@
 package be.bt.cinemasnoussapi.rest;
 
-import be.bt.cinemasnoussapi.domain.FilmScreening;
-import be.bt.cinemasnoussapi.domain.Movie;
+import be.bt.cinemasnoussapi.domain.*;
 import be.bt.cinemasnoussapi.domain.FilmScreening;
 import be.bt.cinemasnoussapi.repository.IMovieRepository;
 import org.springframework.http.HttpStatus;
@@ -58,6 +57,16 @@ public class MovieRestController {
         Optional<Movie> result = movieRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Collection<FilmScreening>>(result.get().getProjections(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(path = "/{id}/category")
+    public ResponseEntity<Category> getCategoryByMovie(@PathVariable("id") Long id) {
+        Optional<Movie> result = movieRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<Category>(result.get().getCategory(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
