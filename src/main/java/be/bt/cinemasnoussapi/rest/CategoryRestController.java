@@ -48,22 +48,22 @@ public class CategoryRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> addCategory(@RequestBody Category room) {
-        Optional<Category> result = categoryrepository.findById(room.getId());
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
+        Optional<Category> result = categoryrepository.findById(category.getId());
         if (!result.isPresent()) {
-            categoryrepository.save(room);
-            return new ResponseEntity<Category>(room, HttpStatus.CREATED);
+            categoryrepository.save(category);
+            return new ResponseEntity<Category>(category, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PutMapping
-    public ResponseEntity<Category> update(@RequestBody Category room) {
-        Optional<Category> result = categoryrepository.findById(room.getId());
+    public ResponseEntity<Category> update(@RequestBody Category category) {
+        Optional<Category> result = categoryrepository.findById(category.getId());
         if (result.isPresent()) {
-            categoryrepository.save(room);
-            return new ResponseEntity<Category>(room, HttpStatus.ACCEPTED);
+            categoryrepository.save(category);
+            return new ResponseEntity<Category>(category, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

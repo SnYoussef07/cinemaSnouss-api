@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -72,22 +73,29 @@ public class MovieRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie room) {
-        Optional<Movie> result = movieRepository.findById(room.getId());
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
+        Optional<Movie> result = movieRepository.findById(movie.getId());
         if (!result.isPresent()) {
-            movieRepository.save(room);
-            return new ResponseEntity<Movie>(room, HttpStatus.CREATED);
+            movieRepository.save(movie);
+            return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
+    public void uploadPicture(MultipartFile file, @PathVariable Long id) throws Exception {
+        Optional<Movie> result = movieRepository.findById(id);
+        result.get().setPicture(file.getOriginalFilename());
+        Files.write(Paths.get(System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + ".png"), file.getBytes());
+        movieRepository.save(result.get());
+    }
+
     @PutMapping
-    public ResponseEntity<Movie> update(@RequestBody Movie room) {
-        Optional<Movie> result = movieRepository.findById(room.getId());
+    public ResponseEntity<Movie> update(@RequestBody Movie movie) {
+        Optional<Movie> result = movieRepository.findById(movie.getId());
         if (result.isPresent()) {
-            movieRepository.save(room);
-            return new ResponseEntity<Movie>(room, HttpStatus.ACCEPTED);
+            movieRepository.save(movie);
+            return new ResponseEntity<Movie>(movie, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -103,4 +111,6 @@ public class MovieRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
 }

@@ -59,22 +59,22 @@ public class TicketRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Ticket> addTicket(@RequestBody Ticket room) {
-        Optional<Ticket> result = ticketRepository.findById(room.getId());
+    public ResponseEntity<Ticket> addTicket(@RequestBody Ticket ticket) {
+        Optional<Ticket> result = ticketRepository.findById(ticket.getId());
         if (!result.isPresent()) {
-            ticketRepository.save(room);
-            return new ResponseEntity<Ticket>(room, HttpStatus.CREATED);
+            ticketRepository.save(ticket);
+            return new ResponseEntity<Ticket>(ticket, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PutMapping
-    public ResponseEntity<Ticket> update(@RequestBody Ticket room) {
-        Optional<Ticket> result = ticketRepository.findById(room.getId());
+    public ResponseEntity<Ticket> update(@RequestBody Ticket ticket) {
+        Optional<Ticket> result = ticketRepository.findById(ticket.getId());
         if (result.isPresent()) {
-            ticketRepository.save(room);
-            return new ResponseEntity<Ticket>(room, HttpStatus.ACCEPTED);
+            ticketRepository.save(ticket);
+            return new ResponseEntity<Ticket>(ticket, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

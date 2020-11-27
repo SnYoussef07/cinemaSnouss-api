@@ -14,20 +14,20 @@ import java.util.Optional;
 @CrossOrigin
 public class SessionMovieRestController {
 
-    private ISessionMovieRepository sessionMovie;
+    private ISessionMovieRepository sessionMovieRepository;
 
-    public SessionMovieRestController(ISessionMovieRepository sessionMovie) {
-        this.sessionMovie = sessionMovie;
+    public SessionMovieRestController(ISessionMovieRepository sessionMovieRepository) {
+        this.sessionMovieRepository = sessionMovieRepository;
     }
 
     @GetMapping
     public List<SessionMovie> getAllSessionMovies() {
-        return sessionMovie.findAll();
+        return sessionMovieRepository.findAll();
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<SessionMovie> findById(@PathVariable("id") Long id) {
-        Optional<SessionMovie> result = sessionMovie.findById(id);
+        Optional<SessionMovie> result = sessionMovieRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<SessionMovie>(result.get(), HttpStatus.OK);
         } else {
@@ -36,22 +36,22 @@ public class SessionMovieRestController {
     }
 
     @PostMapping
-    public ResponseEntity<SessionMovie> addSessionMovie(@RequestBody SessionMovie room) {
-        Optional<SessionMovie> result = sessionMovie.findById(room.getId());
+    public ResponseEntity<SessionMovie> addSessionMovie(@RequestBody SessionMovie sessionMovie) {
+        Optional<SessionMovie> result = sessionMovieRepository.findById(sessionMovie.getId());
         if (!result.isPresent()) {
-            sessionMovie.save(room);
-            return new ResponseEntity<SessionMovie>(room, HttpStatus.CREATED);
+            sessionMovieRepository.save(sessionMovie);
+            return new ResponseEntity<SessionMovie>(sessionMovie, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PutMapping
-    public ResponseEntity<SessionMovie> update(@RequestBody SessionMovie room) {
-        Optional<SessionMovie> result = sessionMovie.findById(room.getId());
+    public ResponseEntity<SessionMovie> update(@RequestBody SessionMovie sessionMovie) {
+        Optional<SessionMovie> result = sessionMovieRepository.findById(sessionMovie.getId());
         if (result.isPresent()) {
-            sessionMovie.save(room);
-            return new ResponseEntity<SessionMovie>(room, HttpStatus.ACCEPTED);
+            sessionMovieRepository.save(sessionMovie);
+            return new ResponseEntity<SessionMovie>(sessionMovie, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -59,9 +59,9 @@ public class SessionMovieRestController {
 
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<SessionMovie> deleteById(@PathVariable("id") Long id) {
-        Optional<SessionMovie> result = sessionMovie.findById(id);
+        Optional<SessionMovie> result = sessionMovieRepository.findById(id);
         if (result.isPresent()) {
-            sessionMovie.delete(result.get());
+            sessionMovieRepository.delete(result.get());
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

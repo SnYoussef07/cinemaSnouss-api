@@ -37,7 +37,7 @@ public class FilmScreeningRestController {
     }
 
     @GetMapping(path = "/{id}/tickets")
-    public ResponseEntity<Collection<Ticket>> getAllMoviesFromFilmScreen(@PathVariable("id") Long id) {
+    public ResponseEntity<Collection<Ticket>> getAllTicketsFromFilmScreen(@PathVariable("id") Long id) {
         Optional<FilmScreening> result = filmScreeningRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<Collection<Ticket>>(result.get().getTickets(), HttpStatus.OK);
@@ -77,22 +77,22 @@ public class FilmScreeningRestController {
     }
 
     @PostMapping
-    public ResponseEntity<FilmScreening> addFilmScreening(@RequestBody FilmScreening room) {
-        Optional<FilmScreening> result = filmScreeningRepository.findById(room.getId());
+    public ResponseEntity<FilmScreening> addFilmScreening(@RequestBody FilmScreening filmScreening) {
+        Optional<FilmScreening> result = filmScreeningRepository.findById(filmScreening.getId());
         if (!result.isPresent()) {
-            filmScreeningRepository.save(room);
-            return new ResponseEntity<FilmScreening>(room, HttpStatus.CREATED);
+            filmScreeningRepository.save(filmScreening);
+            return new ResponseEntity<FilmScreening>(filmScreening, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PutMapping
-    public ResponseEntity<FilmScreening> update(@RequestBody FilmScreening room) {
-        Optional<FilmScreening> result = filmScreeningRepository.findById(room.getId());
+    public ResponseEntity<FilmScreening> update(@RequestBody FilmScreening filmScreening) {
+        Optional<FilmScreening> result = filmScreeningRepository.findById(filmScreening.getId());
         if (result.isPresent()) {
-            filmScreeningRepository.save(room);
-            return new ResponseEntity<FilmScreening>(room, HttpStatus.ACCEPTED);
+            filmScreeningRepository.save(filmScreening);
+            return new ResponseEntity<FilmScreening>(filmScreening, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

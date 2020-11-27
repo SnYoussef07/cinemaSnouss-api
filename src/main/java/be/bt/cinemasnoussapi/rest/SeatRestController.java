@@ -37,7 +37,7 @@ public class SeatRestController {
     }
 
     @GetMapping(path = "/{id}/tickets")
-    public ResponseEntity<Collection<Ticket>> getAllTicketBySeat(@PathVariable("id") Long id) {
+    public ResponseEntity<Collection<Ticket>> getAllTicketFromSeat(@PathVariable("id") Long id) {
         Optional<Seat> result = seatRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get().getTickets(), HttpStatus.OK);
@@ -57,22 +57,22 @@ public class SeatRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Seat> addSeat(@RequestBody Seat room) {
-        Optional<Seat> result = seatRepository.findById(room.getId());
+    public ResponseEntity<Seat> addSeat(@RequestBody Seat seat) {
+        Optional<Seat> result = seatRepository.findById(seat.getId());
         if (!result.isPresent()) {
-            seatRepository.save(room);
-            return new ResponseEntity<Seat>(room, HttpStatus.CREATED);
+            seatRepository.save(seat);
+            return new ResponseEntity<Seat>(seat, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PutMapping
-    public ResponseEntity<Seat> update(@RequestBody Seat room) {
-        Optional<Seat> result = seatRepository.findById(room.getId());
+    public ResponseEntity<Seat> update(@RequestBody Seat seat) {
+        Optional<Seat> result = seatRepository.findById(seat.getId());
         if (result.isPresent()) {
-            seatRepository.save(room);
-            return new ResponseEntity<Seat>(room, HttpStatus.ACCEPTED);
+            seatRepository.save(seat);
+            return new ResponseEntity<Seat>(seat, HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
