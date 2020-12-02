@@ -41,12 +41,12 @@ public class MovieRestController {
         }
     }
 
-    @GetMapping(path = "/pictures/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+    @GetMapping(path = "/pictures/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> getPictures(@PathVariable("id") Long id) throws Exception {
         Optional<Movie> result = movieRepository.findById(id);
         if (result.isPresent()) {
             return new ResponseEntity<>(Files.readAllBytes(Paths.get
-                    (System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + ".png")), HttpStatus.OK);
+                    (System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + ".jpg")), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -83,10 +83,11 @@ public class MovieRestController {
         }
     }
 
+    @PostMapping
     public void uploadPicture(MultipartFile file, @PathVariable Long id) throws Exception {
         Optional<Movie> result = movieRepository.findById(id);
         result.get().setPicture(file.getOriginalFilename());
-        Files.write(Paths.get(System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + ".png"), file.getBytes());
+        Files.write(Paths.get(System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + ".jpg"), file.getBytes());
         movieRepository.save(result.get());
     }
 

@@ -18,12 +18,12 @@ public class CinemaSnoussApiApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        cinemaInitService.initRooms();
+        /*cinemaInitService.initRooms();
         cinemaInitService.initSeats();
         cinemaInitService.initSessionMovie();
         cinemaInitService.initCategories();
         cinemaInitService.initMovies();
         cinemaInitService.initFilmScreening();
-        cinemaInitService.initTickets();
+        cinemaInitService.initTickets();*/
     }
 }

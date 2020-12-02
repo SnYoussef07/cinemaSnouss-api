@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-@JsonIgnoreProperties(value = {"projections", "seats"})
+@JsonIgnoreProperties(value = {"seats"})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

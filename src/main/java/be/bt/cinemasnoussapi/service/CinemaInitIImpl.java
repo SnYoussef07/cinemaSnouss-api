@@ -97,17 +97,18 @@ public class CinemaInitIImpl implements ICinemaInitService {
 
     @Override
     public void initFilmScreening() {
+        List<Movie> myMovies = movieRepository.findAll();
         roomRepository.findAll().forEach(room -> {
-            movieRepository.findAll().forEach(movie -> {
-                iSessionMovieRepository.findAll().forEach(sessionMovie -> {
-                    FilmScreening filmScreening = new FilmScreening();
-                    filmScreening.setScreeningDate(new Date());
-                    filmScreening.setMovie(movie);
-                    filmScreening.setPrice(12);
-                    filmScreening.setRoom(room);
-                    filmScreening.setSessionMovie(sessionMovie);
-                    filmScreeningRepository.save(filmScreening);
-                });
+            int randomx = new Random().nextInt(myMovies.size());
+            Movie movie = myMovies.get(randomx);
+            iSessionMovieRepository.findAll().forEach(sessionMovie -> {
+                FilmScreening filmScreening = new FilmScreening();
+                filmScreening.setScreeningDate(new Date());
+                filmScreening.setMovie(movie);
+                filmScreening.setPrice(12);
+                filmScreening.setRoom(room);
+                filmScreening.setSessionMovie(sessionMovie);
+                filmScreeningRepository.save(filmScreening);
             });
         });
     }

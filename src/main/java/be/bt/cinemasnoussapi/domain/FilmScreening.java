@@ -29,10 +29,10 @@ public class FilmScreening implements Serializable {
     @JsonIgnore
     private Room room;
     @ManyToOne
-    @JsonIgnore
+    //@JsonIgnore
     private Movie movie;
     @ManyToOne
-    @JsonIgnore
+    //@JsonIgnore
     private SessionMovie sessionMovie;
     @OneToMany(mappedBy = "filmScreening")
     private Collection<Ticket> tickets;
