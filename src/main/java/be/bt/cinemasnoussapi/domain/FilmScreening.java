@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@JsonIgnoreProperties(value = {"tickets"})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,10 +28,8 @@ public class FilmScreening implements Serializable {
     @JsonIgnore
     private Room room;
     @ManyToOne
-    //@JsonIgnore
     private Movie movie;
     @ManyToOne
-    //@JsonIgnore
     private SessionMovie sessionMovie;
     @OneToMany(mappedBy = "filmScreening")
     private Collection<Ticket> tickets;

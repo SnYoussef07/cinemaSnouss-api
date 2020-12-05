@@ -52,6 +52,17 @@ public class MovieRestController {
         }
     }
 
+    @GetMapping(path = "/banner/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getBanner(@PathVariable("id") Long id) throws Exception {
+        Optional<Movie> result = movieRepository.findById(id);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(Files.readAllBytes(Paths.get
+                    (System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getBanner() + ".jpg")), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
     @GetMapping(path = "/{id}/filmScreenings")
     public ResponseEntity<Collection<FilmScreening>> getAllFilmScreenFromMovie(@PathVariable("id") Long id) {
         Optional<Movie> result = movieRepository.findById(id);
@@ -83,7 +94,7 @@ public class MovieRestController {
         }
     }
 
-    @PostMapping
+    @PostMapping("uploadPictures/{id}")
     public void uploadPicture(MultipartFile file, @PathVariable Long id) throws Exception {
         Optional<Movie> result = movieRepository.findById(id);
         result.get().setPicture(file.getOriginalFilename());

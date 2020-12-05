@@ -84,12 +84,13 @@ public class CinemaInitIImpl implements ICinemaInitService {
     public void initMovies() {
         double[] duration = new double[]{1.0, 1.5, 2.0, 2.5, 3.0};
         List<Category> categories = categoryrepository.findAll();
-        Stream.of("Avengers : Endgame", "Forrest Gump", "Les Évadés", "Ip Man 2", "Justice League", "Inception",
+        Stream.of("Avengers Endgame", "Forrest Gump", "Les Évadés", "Ip Man 2", "Justice League", "Inception",
                 "Interstellar", "The Dark Knight", "La Légende d'Excalibur", "Sherlock Holmes").forEach(title -> {
             Movie movie = new Movie();
             movie.setTitle(title);
             movie.setDuration(duration[new Random().nextInt(duration.length)]);
             movie.setPicture(title.replace(" ", ""));
+            movie.setBanner(title.replace(" ", "") + "Bn");
             movie.setCategory(categories.get(new Random().nextInt(categories.size())));
             movieRepository.save(movie);
         });
@@ -105,6 +106,7 @@ public class CinemaInitIImpl implements ICinemaInitService {
                 FilmScreening filmScreening = new FilmScreening();
                 filmScreening.setScreeningDate(new Date());
                 filmScreening.setMovie(movie);
+                myMovies.remove(movie);
                 filmScreening.setPrice(12);
                 filmScreening.setRoom(room);
                 filmScreening.setSessionMovie(sessionMovie);

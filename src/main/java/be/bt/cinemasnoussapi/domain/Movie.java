@@ -28,6 +28,7 @@ public class Movie implements Serializable {
     private String filmDirector;
     private Date releaseDate;
     private double duration;
+    private  String banner;
     private String picture;
     @OneToMany(mappedBy = "movie")
     private Collection<FilmScreening> projections;
