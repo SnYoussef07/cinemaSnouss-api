@@ -24,7 +24,6 @@ public class Ticket implements Serializable {
     private Integer paymentCode;
     private boolean reserve;
     @ManyToOne
-    @JsonIgnore
     private Seat seat;
     @ManyToOne
     @JsonIgnore

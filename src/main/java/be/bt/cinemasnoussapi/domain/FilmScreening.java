@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
+@JsonIgnoreProperties(value = {"tickets"})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
