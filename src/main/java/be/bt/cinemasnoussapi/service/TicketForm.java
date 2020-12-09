@@ -9,5 +9,5 @@ import java.util.List;
 public class TicketForm {
     private String nameClient;
     private int paymentCode;
-    private List<Long> tickets = new ArrayList<>();
+    private List<Long> ticketsId = new ArrayList<>();
 }

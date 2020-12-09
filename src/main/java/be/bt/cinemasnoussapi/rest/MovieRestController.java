@@ -84,21 +84,29 @@ public class MovieRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) {
-        Optional<Movie> result = movieRepository.findById(movie.getId());
-        if (!result.isPresent()) {
-            movieRepository.save(movie);
-            return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
+    public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) throws Exception {
+        //Optional<Movie> result = movieRepository.findById(movie.getId());
+        //if (!result.isPresent()) {
+        Movie resultMovie = movieRepository.save(movie);
+        return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
+        //} else {
+        //return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        //}
     }
 
     @PostMapping("uploadPictures/{id}")
     public void uploadPicture(MultipartFile file, @PathVariable Long id) throws Exception {
         Optional<Movie> result = movieRepository.findById(id);
-        result.get().setPicture(file.getOriginalFilename());
+        result.get().setPicture(result.get().getTitle().replace(" ", ""));
         Files.write(Paths.get(System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + ".jpg"), file.getBytes());
+        movieRepository.save(result.get());
+    }
+
+    @PostMapping("uploadBanner/{id}")
+    public void uploadBanner(MultipartFile file, @PathVariable Long id) throws Exception {
+        Optional<Movie> result = movieRepository.findById(id);
+        result.get().setPicture(result.get().getTitle().replace(" ", "") + "Bn");
+        Files.write(Paths.get(System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + "Bn.jpg"), file.getBytes());
         movieRepository.save(result.get());
     }
 

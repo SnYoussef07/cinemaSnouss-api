@@ -22,11 +22,11 @@ public class CinemaRestController {
     @PostMapping("/payTickets")
     public List<Ticket> payTickets(@RequestBody TicketForm ticketForm) {
         List<Ticket> listTickets = new ArrayList<>();
-        ticketForm.getTickets().forEach(idTicket -> {
+        ticketForm.getTicketsId().forEach(idTicket -> {
             Ticket ticket = ticketRepository.findById(idTicket).get();
             ticket.setClientName(ticketForm.getNameClient());
             ticket.setReserve(true);
-            //ticket.setPaymentCode(ticketForm.getPaymentCode());
+            ticket.setPaymentCode(ticketForm.getPaymentCode());
             ticketRepository.save(ticket);
             listTickets.add(ticket);
         });

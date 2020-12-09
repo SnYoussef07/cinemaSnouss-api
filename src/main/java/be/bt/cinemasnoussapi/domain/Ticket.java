@@ -20,7 +20,7 @@ public class Ticket implements Serializable {
     private Long id;
     private String clientName;
     private double price;
-    @Column(unique = true, nullable = true)
+    @Column(nullable = true)
     private Integer paymentCode;
     private boolean reserve;
     @ManyToOne
