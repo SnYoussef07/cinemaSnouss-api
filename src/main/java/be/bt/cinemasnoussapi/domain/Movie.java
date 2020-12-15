@@ -24,6 +24,7 @@ public class Movie implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    @Column(length = 3000)
     private String description;
     private String filmDirector;
     private Date releaseDate;
@@ -34,6 +35,5 @@ public class Movie implements Serializable {
     @OneToMany(mappedBy = "movie")
     private Collection<FilmScreening> projections;
     @ManyToOne
-    @JsonIgnore
     private Category category;
 }

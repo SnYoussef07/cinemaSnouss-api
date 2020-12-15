@@ -105,7 +105,7 @@ public class MovieRestController {
     @PostMapping("uploadBanner/{id}")
     public void uploadBanner(MultipartFile file, @PathVariable Long id) throws Exception {
         Optional<Movie> result = movieRepository.findById(id);
-        result.get().setPicture(result.get().getTitle().replace(" ", "") + "Bn");
+        result.get().setBanner(result.get().getTitle().replace(" ", "") + "Bn");
         Files.write(Paths.get(System.getProperty("user.home") + "/cinesnoussimages/" + result.get().getPicture() + "Bn.jpg"), file.getBytes());
         movieRepository.save(result.get());
     }
