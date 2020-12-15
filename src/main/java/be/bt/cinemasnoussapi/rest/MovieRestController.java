@@ -85,13 +85,8 @@ public class MovieRestController {
 
     @PostMapping
     public ResponseEntity<Movie> addMovie(@RequestBody Movie movie) throws Exception {
-        //Optional<Movie> result = movieRepository.findById(movie.getId());
-        //if (!result.isPresent()) {
         Movie resultMovie = movieRepository.save(movie);
         return new ResponseEntity<Movie>(movie, HttpStatus.CREATED);
-        //} else {
-        //return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        //}
     }
 
     @PostMapping("uploadPictures/{id}")
