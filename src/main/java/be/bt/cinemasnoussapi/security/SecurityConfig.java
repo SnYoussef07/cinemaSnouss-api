@@ -1,7 +1,9 @@
 package be.bt.cinemasnoussapi.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -28,6 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        //http.formLogin();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/movies/**").hasAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/**").permitAll();
+        http.authorizeRequests().antMatchers("/login/**", "/register/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
     }
 
