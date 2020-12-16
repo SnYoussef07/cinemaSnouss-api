@@ -37,8 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //desactivation de la session , on passe ne jwt
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //http.formLogin();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/movies/**").hasAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/cinema/payTickets/**").hasAuthority("USER");
         http.authorizeRequests().antMatchers("/login/**", "/register/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(new JWTAuthenticationFilter(authenticationManager()));

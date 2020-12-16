@@ -25,31 +25,32 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 "Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization");
         httpServletResponse.addHeader("Access-Control-Expose-Headers", "Access-Control-Allow-Origin," +
                 "Content-Type, Access-Control-Allow-Credentials, Authorization");
-
-
-        String jwt = httpServletRequest.getHeader(SecurityConstants.HEADER_STRING);
-        if (jwt == null || !jwt.startsWith(SecurityConstants.TOKEN_PREFIX)) {
-            //passe au filter suivant
+        
+        if (httpServletRequest.getMethod().equals("OPTIONS")) {
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            String jwt = httpServletRequest.getHeader(SecurityConstants.HEADER_STRING);
+            if (jwt == null || !jwt.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+                //passe au filter suivant
+                filterChain.doFilter(httpServletRequest, httpServletResponse);
+                return;
+            }
+            //decode le token dans le header
+            Claims claims = Jwts.parser()
+                    .setSigningKey(SecurityConstants.SECRET)
+                    .parseClaimsJws(jwt.replace(SecurityConstants.TOKEN_PREFIX, ""))
+                    .getBody();
+            String username = claims.getSubject();
+            //recupere les roles
+            ArrayList<Map<String, String>> roles = (ArrayList<Map<String, String>>) claims.get("roles");
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            roles.forEach(r -> {
+                authorities.add(new SimpleGrantedAuthority(r.get("authority")));
+            });
+            //on charge le user authentifier
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             filterChain.doFilter(httpServletRequest, httpServletResponse);
-            return;
         }
-        //decode le token dans le header
-        Claims claims = Jwts.parser()
-                .setSigningKey(SecurityConstants.SECRET)
-                .parseClaimsJws(jwt.replace(SecurityConstants.TOKEN_PREFIX, ""))
-                .getBody();
-        String username = claims.getSubject();
-        //recupere les roles
-        ArrayList<Map<String, String>> roles = (ArrayList<Map<String, String>>) claims.get("roles");
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        roles.forEach(r -> {
-            authorities.add(new SimpleGrantedAuthority(r.get("authority")));
-        });
-        //on charge le user authentifier
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
-
-
     }
 }
